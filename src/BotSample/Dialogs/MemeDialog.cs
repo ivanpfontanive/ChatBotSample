@@ -1,6 +1,7 @@
 ﻿using MemeGenerator;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Resources;
 using System;
 using System.Threading.Tasks;
 
@@ -26,10 +27,8 @@ namespace BotSample.Dialogs
         {
             var activity = await result as Activity;
 
-            int length = (activity.Text ?? string.Empty).Length;
-
             // return our reply to the user
-            await context.PostAsync(length.ToString());
+            await context.PostAsync(ResMensagens.msgMemeBemVindo);
 
             context.Wait(MessageReceivedAsync);
         }

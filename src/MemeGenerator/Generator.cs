@@ -1,11 +1,13 @@
 ﻿using MemeGenerator.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MemeGenerator
 {
+    [Serializable]
     public class Generator : IGenerator
     {
         private const string urlGenerator = "https://memegen.link/api";
