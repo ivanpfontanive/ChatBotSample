@@ -8,6 +8,6 @@ namespace MemeGenerator
     {
         Task<IList<MemeTemplate>> GetMemesTemplateAsync();
 
-        Task<Meme> GetMemeAsync(MemeTemplate template, string texto1, string texto2);
+        Task<Meme> GetMemeAsync(string templateNome, string texto1, string texto2);
     }
 }

@@ -61,11 +61,56 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Texto rodapé meme.
+        /// </summary>
+        internal static string lblTextoRodapeMeme {
+            get {
+                return ResourceManager.GetString("lblTextoRodapeMeme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Texto topo meme.
+        /// </summary>
+        internal static string lblTextoTopoMeme {
+            get {
+                return ResourceManager.GetString("lblTextoTopoMeme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aguarde alguns segundos estou gerando o meme!.
+        /// </summary>
+        internal static string msgAguardeGerarndoMeme {
+            get {
+                return ResourceManager.GetString("msgAguardeGerarndoMeme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Olá, sou gerador de memes! .
         /// </summary>
         internal static string msgMemeBemVindo {
             get {
                 return ResourceManager.GetString("msgMemeBemVindo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preencha o formulário abaixo para que eu possa gerar seu meme!.
+        /// </summary>
+        internal static string msgPreenchaFormularioMeme {
+            get {
+                return ResourceManager.GetString("msgPreenchaFormularioMeme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Por favor, você deve selecionar um meme e informar um texto para o meme!.
+        /// </summary>
+        internal static string msgTemplateTextoObrigatorio {
+            get {
+                return ResourceManager.GetString("msgTemplateTextoObrigatorio", resourceCulture);
             }
         }
     }

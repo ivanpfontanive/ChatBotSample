@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblTextoRodapeMeme" xml:space="preserve">
+    <value>Texto rodapé meme</value>
+  </data>
+  <data name="lblTextoTopoMeme" xml:space="preserve">
+    <value>Texto topo meme</value>
+  </data>
+  <data name="msgAguardeGerarndoMeme" xml:space="preserve">
+    <value>Aguarde alguns segundos estou gerando o meme!</value>
+  </data>
   <data name="msgMemeBemVindo" xml:space="preserve">
     <value>Olá, sou gerador de memes! </value>
+  </data>
+  <data name="msgPreenchaFormularioMeme" xml:space="preserve">
+    <value>Preencha o formulário abaixo para que eu possa gerar seu meme!</value>
+  </data>
+  <data name="msgTemplateTextoObrigatorio" xml:space="preserve">
+    <value>Por favor, você deve selecionar um meme e informar um texto para o meme!</value>
   </data>
 </root>

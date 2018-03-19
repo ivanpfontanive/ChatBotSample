@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ namespace MemeGenerator
     {
         private const string urlGenerator = "https://memegen.link/api";
         private static HttpClient httpClient;
-        private IList<MemeTemplate> templates;
+        private static IList<MemeTemplate> templates;
 
-        public Generator()
+        static Generator()
         {
             templates = new List<MemeTemplate>();
             httpClient = new HttpClient();
@@ -42,9 +43,11 @@ namespace MemeGenerator
             }
         }
 
-        public async Task<Meme> GetMemeAsync(MemeTemplate template, string texto1, string texto2)
+        public async Task<Meme> GetMemeAsync(string templateNome, string texto1, string texto2)
         {
-            var result = await httpClient.GetStringAsync($"{template.Value}/{texto1}/{texto2}.jpg").ConfigureAwait(false);
+            var template = templates.First(x => x.Name == templateNome);
+
+            var result = await httpClient.GetStringAsync($"{template.Value}/{texto1}/{texto2}").ConfigureAwait(false);
 
             var meme = JsonConvert.DeserializeObject<Meme>(result);
 
