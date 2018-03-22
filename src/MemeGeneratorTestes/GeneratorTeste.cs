@@ -29,7 +29,7 @@ namespace MemeGeneratorTestes
         {
             var memesTemplate = await generator.GetMemesTemplateAsync().ConfigureAwait(false);
 
-            var meme = await generator.GetMemeAsync(memesTemplate.Last(), "Texto 1", "Texto 2").ConfigureAwait(false);
+            var meme = await generator.GetMemeAsync(memesTemplate.Last().Name, "Texto 1", "Texto 2").ConfigureAwait(false);
 
             meme.Should().NotBeNull();
         }

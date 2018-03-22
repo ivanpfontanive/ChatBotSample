@@ -39,6 +39,10 @@ namespace MemeGenerator
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
             foreach (var kv in dict)
             {
+                if (string.IsNullOrWhiteSpace(kv.Key))
+                {
+                    continue;
+                }
                 templates.Add(new MemeTemplate { Name = kv.Key, Value = kv.Value });
             }
         }

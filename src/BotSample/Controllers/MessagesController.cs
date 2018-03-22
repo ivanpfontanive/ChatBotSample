@@ -1,4 +1,6 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using BotSample.Formularios;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 using System.Net;
 using System.Net.Http;
@@ -19,7 +21,21 @@ namespace BotSample
             if (activity.Type == ActivityTypes.Message)
             {
                 //await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
-                await Conversation.SendAsync(activity, () => new Dialogs.MemeDialog(new MemeGenerator.Generator()));
+                //await Conversation.SendAsync(activity, () => new Dialogs.MemeDialog(new MemeGenerator.Generator()));
+                await SendConversationAsync(activity);
+            }
+            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                if (activity.MembersAdded != null && activity.MembersAdded.Count > 0)
+                {
+                    foreach (var member in activity.MembersAdded)
+                    {
+                        if (member.Id != activity.Recipient.Id)
+                        {
+                            await SendConversationAsync(activity);
+                        }
+                    }
+                }
             }
             else
             {
@@ -27,6 +43,11 @@ namespace BotSample
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        private async Task SendConversationAsync(Activity activity)
+        {
+            await Conversation.SendAsync(activity, () => Chain.From(() => FormDialog.FromForm(() => MemeForm.BuildForm(), FormOptions.PromptFieldsWithValues)));
         }
 
         private Activity HandleSystemMessage(Activity message)
