@@ -61,6 +61,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Informe o texto inferior do meme.
+        /// </summary>
+        internal static string lblInformeTextoDown {
+            get {
+                return ResourceManager.GetString("lblInformeTextoDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Informe o texto superior do meme.
+        /// </summary>
+        internal static string lblInformeTextoUp {
+            get {
+                return ResourceManager.GetString("lblInformeTextoUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Texto rodapé meme.
         /// </summary>
         internal static string lblTextoRodapeMeme {

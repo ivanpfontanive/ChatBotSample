@@ -1,4 +1,5 @@
-﻿using MemeGenerator;
+﻿using AdaptiveCards;
+using MemeGenerator;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json.Linq;
@@ -9,16 +10,6 @@ using System.Threading.Tasks;
 
 namespace BotSample.Dialogs
 {
-    [Serializable]
-    public enum Passo
-    {
-        naodefinido,
-        passo_1,
-        passo_2,
-        passo_3,
-        passo4
-    }
-
     [Serializable]
     public class MemeDialog : IDialog<object>
     {
@@ -39,100 +30,44 @@ namespace BotSample.Dialogs
         {
             var activity = await result as Activity;
 
-            var passo = AvaliarPasso(activity.Text);
-
-            switch (passo)
+            if (activity.Value != null)
             {
-                case Passo.naodefinido:
-                    await ProcessarSubmitAsync(context, activity);
-                    break;
-
-                case Passo.passo_1:
-                    break;
-
-                case Passo.passo_2:
-                    break;
-
-                case Passo.passo_3:
-                    break;
-
-                case Passo.passo4:
-                    break;
-
-                default:
-                    break;
+                await ProcessarSubmitAsync(context, activity);
             }
-
-            //if (activity.Value != null)
-            //{
-            //    await ProcessarSubmitAsync(context, activity);
-            //}
-            //else
-            //{
-            //    await IniciarMemesAsync(context, activity);
-            //}
+            else
+            {
+                await IniciarMemesAsync(context, activity);
+            }
 
             context.Wait(MessageReceivedAsync);
-        }
-
-        private Passo AvaliarPasso(string text)
-        {
-            if (string.IsNullOrEmpty(text) && !text.ToLower().Contains("passo"))
-            {
-                return Passo.naodefinido;
-            }
-            return (Passo)Enum.Parse(typeof(Passo), text.Split(':')[0], true);
         }
 
         private async Task IniciarMemesAsync(IDialogContext context, Activity activity)
         {
             await context.PostAsync(ResMensagens.msgMemeBemVindo);
-
             var message = activity.CreateReply();
 
-            var hero = new HeroCard();
+            var adaptiveCard = new AdaptiveCard();
 
-            hero.Title = ResMensagens.msgPreenchaFormularioMeme;
+            adaptiveCard.Body.Add(new AdaptiveTextBlock() { Text = ResMensagens.msgPreenchaFormularioMeme });
 
-            var actions = new List<CardAction>();
+            var choices = new AdaptiveChoiceSetInput();
+            choices.Id = "template";
+            choices.Style = AdaptiveChoiceInputStyle.Compact;
+
             foreach (var item in await Generator.GetMemesTemplateAsync())
             {
-                var action = new CardAction() { Title = item.Name, Value = "passo_1:" + item.Name, Type = ActionTypes.PostBack };
-                actions.Add(action);
+                choices.Choices.Add(new AdaptiveChoice() { Title = item.Name, Value = item.Name });
             }
-            hero.Buttons = actions;
+            adaptiveCard.Body.Add(choices);
+            adaptiveCard.Body.Add(new AdaptiveTextInput() { Id = "texto_1", MaxLength = 40, Placeholder = ResMensagens.lblTextoTopoMeme });
+            adaptiveCard.Body.Add(new AdaptiveTextInput() { Id = "texto_2", MaxLength = 40, Placeholder = ResMensagens.lblTextoRodapeMeme });
 
-            message.Attachments.Add(hero.ToAttachment());
+            adaptiveCard.Actions.Add(new AdaptiveSubmitAction() { Title = "Ok", Id = "Submeter" });
+            message.Attachments.Add(new Attachment() { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard });
 
             await context.PostAsync(message);
         }
-
-        //private async Task IniciarMemesAsync(IDialogContext context, Activity activity)
-        //{
-        //    await context.PostAsync(ResMensagens.msgMemeBemVindo);
-        //    var message = activity.CreateReply();
-
-        //    var adaptiveCard = new AdaptiveCard();
-
-        //    adaptiveCard.Body.Add(new AdaptiveTextBlock() { Text = ResMensagens.msgPreenchaFormularioMeme });
-
-        //    var choices = new AdaptiveChoiceSetInput();
-        //    choices.Id = "template";
-        //    choices.Style = AdaptiveChoiceInputStyle.Compact;
-
-        //    foreach (var item in await Generator.GetMemesTemplateAsync())
-        //    {
-        //        choices.Choices.Add(new AdaptiveChoice() { Title = item.Name, Value = item.Name });
-        //    }
-        //    adaptiveCard.Body.Add(choices);
-        //    adaptiveCard.Body.Add(new AdaptiveTextInput() { Id = "texto_1", MaxLength = 40, Placeholder = ResMensagens.lblTextoTopoMeme });
-        //    adaptiveCard.Body.Add(new AdaptiveTextInput() { Id = "texto_2", MaxLength = 40, Placeholder = ResMensagens.lblTextoRodapeMeme });
-
-        //    adaptiveCard.Actions.Add(new AdaptiveSubmitAction() { Title = "Ok", Id = "Submeter" });
-        //    message.Attachments.Add(new Attachment() { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard });
-
-        //    await context.PostAsync(message);
-        //}
 
         private async Task ProcessarSubmitAsync(IDialogContext context, Activity activity)
         {

@@ -13,10 +13,19 @@ namespace BotSample.Formularios
     [Serializable]
     public class MemeForm
     {
+        [Template(TemplateUsage.NotUnderstood, "Eu não entendi \"{0}\".", "Tente novamente, eu não saquei \"{0}\".")]
+        [Template(TemplateUsage.EnumSelectOne, "Qual {&} você gostaria de utilizar? {||}")]
         public string Template { get; set; }
 
+        //[Terms("Aqui é sparta")] Possíveis valores informados pelo usuário que são parecidos com o valor correto
+        //[Optional]
+        //[Numeric]
+        //[Pattern] Uma expressão regular para validar o valor
+        //[Prompt("Tu deves informar o texto superior do meme!")]
+        [Describe("Informe o texto superior do meme!")]
         public string TextUp { get; set; }
 
+        [Describe("Informe o texto inferior do meme!")]
         public string TextDown { get; set; }
 
         public static IGenerator generator;
